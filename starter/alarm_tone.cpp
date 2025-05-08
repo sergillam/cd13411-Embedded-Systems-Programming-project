@@ -1,20 +1,16 @@
-#include <Arduino.h>
 #include "alarm_tone.h"
+#include <Arduino.h>
 
-#define TONE_TIME 250 /* ms */
+#define TONE_TIME 250    /* ms */
 #define TONE_SPACING 100 /* ms */
 
 static const uint16_t TONES[] = {
-  800,
-  800,
+    800,
+    800,
 };
 const uint16_t NUM_TONES = sizeof(TONES) / sizeof(TONES[0]);
 
-AlarmTone::AlarmTone()
-: _playing(false)
-, _tone_index(0)
-, _last_tone_time(0) {
-}
+AlarmTone::AlarmTone() : _playing(false), _tone_index(0), _last_tone_time(0) {}
 
 void AlarmTone::init(uint8_t pin) {
   _pin = pin;
