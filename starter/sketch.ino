@@ -12,34 +12,24 @@ TM1637 display(5, 18);
 Clock clk;
 
 // ISRs for buttons
-static void button_menu_pressed(void)
-{
-  // Tell clock menu was pressed
-  clk.button_pressed(BUTTON_MENU);
+static void button_menu_pressed(void) {
+  clk.handleButtonMenuPress();
 }
 
-static void button_ok_pressed(void)
-{
-  // Tell clock ok was pressed
-  clk.button_pressed(BUTTON_OK);
+static void button_ok_pressed(void) {
+  clk.handleButtonOkPress();
 }
 
-static void button_plus_pressed(void)
-{
-  // Tell clock plus was pressed
-  clk.button_pressed(BUTTON_PLUS);
+static void button_plus_pressed(void) {
+  clk.handleButtonPlusPress();
 }
 
-static void button_minus_pressed(void)
-{
-  // Tell clock minus was pressed
-  clk.button_pressed(BUTTON_MINUS);
+static void button_minus_pressed(void) {
+  clk.handleButtonMinusPress();
 }
 
-static void alarm_status_changed(void)
-{
-  // Tell clock alarm changed
-  clk.turn_alarm(digitalRead(ALARM_PIN));
+static void alarm_status_changed(void) {
+  clk.handleSwitchAlarmChange(digitalRead(ALARM_PIN));
 }
 
 void setup() {
@@ -63,16 +53,7 @@ void setup() {
   
   // Clock class init
   clk.init(&display, BUZZER_PIN);
-  clk.turn_alarm(digitalRead(ALARM_PIN));
-  /* Uncomment the following lines to set the time 
-     and alarm for testing, it will set it to 23:02:55 
-     with alarm at 23:03. Remember to enable the alarm
-     using the slide switch
-  */
-  // clk.set_time(23, 02, 55);  
-  // clk.set_alarm(23, 03);
-  
-  // Start the clock
+  clk.handleSwitchAlarmChange(digitalRead(ALARM_PIN));;
   clk.run();
 }
 
