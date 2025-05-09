@@ -1,6 +1,6 @@
 #ifndef ALARM_TONE_H
 #define ALARM_TONE_H
-
+#include <cstdint>
 class AlarmTone {
 public:
   AlarmTone();
