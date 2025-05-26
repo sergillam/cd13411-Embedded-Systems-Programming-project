@@ -23,7 +23,7 @@
       "id": "bz1",
       "top": 31.2,
       "left": -180.6,
-      "attrs": { "volume": "0.1" }
+      "attrs": { "volume": "1" }
     },
     {
       "type": "wokwi-pushbutton-6mm",

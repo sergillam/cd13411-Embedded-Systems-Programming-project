@@ -12,28 +12,39 @@ TM1637 display(5, 18);
 Clock clk;
 
 // ISRs for buttons
-static void button_menu_pressed(void) {
-  clk.handleButtonMenuPress();
+static void button_menu_pressed(void)
+{
+  // Tell clock menu was pressed
+  clk.button_pressed(BUTTON_MENU);
 }
 
-static void button_ok_pressed(void) {
-  clk.handleButtonOkPress();
+static void button_ok_pressed(void)
+{
+  // Tell clock ok was pressed
+  clk.button_pressed(BUTTON_OK);
 }
 
-static void button_plus_pressed(void) {
-  clk.handleButtonPlusPress();
+static void button_plus_pressed(void)
+{
+  // Tell clock plus was pressed
+  clk.button_pressed(BUTTON_PLUS);
 }
 
-static void button_minus_pressed(void) {
-  clk.handleButtonMinusPress();
+static void button_minus_pressed(void)
+{
+  // Tell clock minus was pressed
+  clk.button_pressed(BUTTON_MINUS);
 }
 
-static void alarm_status_changed(void) {
-  clk.handleSwitchAlarmChange(digitalRead(ALARM_PIN));
+static void alarm_status_changed(void)
+{
+  // Tell clock alarm changed
+  clk.turn_alarm(digitalRead(ALARM_PIN));
 }
 
 void setup() {
   
+  Serial.begin(115200);
   // Configure buttons as inputs with pull-up
   pinMode(MENU_PIN, INPUT_PULLUP);
   pinMode(PLUS_PIN, INPUT_PULLUP);
@@ -48,12 +59,26 @@ void setup() {
   attachInterrupt(digitalPinToInterrupt(PLUS_PIN), button_plus_pressed, FALLING);
   attachInterrupt(digitalPinToInterrupt(MINUS_PIN), button_minus_pressed, FALLING);
 
+
   display.init();
   display.set(BRIGHT_TYPICAL);
   
   // Clock class init
   clk.init(&display, BUZZER_PIN);
-  clk.handleSwitchAlarmChange(digitalRead(ALARM_PIN));;
+  clk.turn_alarm(digitalRead(ALARM_PIN));
+  /* Uncomment the following lines to set the time 
+     and alarm for testing, it will set it to 23:02:55 
+     with alarm at 23:03. Remember to enable the alarm
+     using the slide switch
+  */
+  // clk.set_time(23, 02, 55);  
+  // clk.set_alarm(23, 03);
+  
+  clk.set_time(23, 59, 55); // Clock quase virando meia-noite
+  clk.set_alarm(0, 0);      // Alarme para 00:00
+   // Alarme vai tocar em 5 segundos
+
+  // Start the clock
   clk.run();
 }
 
